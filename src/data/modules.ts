@@ -564,8 +564,8 @@ if step % 100 == 0:
 ### Why Deep Learning Loves GPUs:
 
 1. **Matrix Multiplication Everywhere**
-   - Forward pass: `Y = W × X`
-   - Backward pass: `∂L/∂W = ∂L/∂Y × X^T`
+   - Forward pass: Y = W × X
+   - Backward pass: ∂L/∂W = ∂L/∂Y × X^T
    - Perfect for GPU parallelism
 
 2. **Batch Processing**
@@ -1005,6 +1005,588 @@ for i, batch in enumerate(dataloader):
         type: 'interactive',
         component: 'DLPipeline'
       }
+    ],
+    codeExamples: [],
+    quizQuestions: [],
+    exercises: [],
+    resources: []
+  },
+  // MODULE 2
+  {
+    id: 'module2',
+    number: 2,
+    title: 'GPU Hardware Architecture',
+    subtitle: 'Deep dive into GPU components and architecture evolution',
+    description: 'Explore SMs, CUDA cores, Tensor cores, warp schedulers, and NVIDIA architecture generations.',
+    duration: '5-6 hours',
+    difficulty: 'intermediate',
+    prerequisites: ['Module 1: Introduction to GPU Computing'],
+    learningObjectives: [
+      'Understand SM internal structure and warp execution',
+      'Differentiate CUDA cores, Tensor cores, RT cores',
+      'Analyze GPU architecture evolution (Kepler to Hopper)',
+      'Calculate occupancy and resource utilization',
+      'Optimize for specific GPU architectures'
+    ],
+    sections: [
+      {
+        id: 'sm-architecture',
+        title: 'Streaming Multiprocessors',
+        content: `The SM is the fundamental building block of NVIDIA GPUs. Modern SMs contain dozens of CUDA cores, specialized units, and memory hierarchies working in concert.
+
+**Key Components:**
+- 64-128 CUDA cores per SM
+- 4-16 Tensor cores (Volta+)
+- Warp schedulers (2-4 per SM)
+- Register file (256 KB typical)
+- Shared memory/L1 cache (128 KB configurable)
+
+Understanding SM architecture is crucial for writing efficient GPU code.`
+      },
+      {
+        id: 'execution-units',
+        title: 'CUDA Cores and Specialized Units',
+        content: `Modern GPUs feature heterogeneous execution units:
+
+**CUDA Cores**: General FP32/INT32 operations
+**Tensor Cores**: Matrix multiply-accumulate (8x-20x speedup for AI)
+**RT Cores**: Ray tracing acceleration
+**SFUs**: Special functions (sin, cos, exp)
+
+Each unit optimized for specific workloads.`
+      },
+      {
+        id: 'arch-evolution',
+        title: 'Architecture Evolution',
+        content: `From Kepler (2012) to Hopper (2022), GPU architecture has evolved dramatically:
+
+**Volta (2017)**: Introduced Tensor Cores - revolution for AI
+**Ampere (2020)**: 3rd-gen Tensor Cores, sparsity, TF32
+**Hopper (2022)**: Transformer Engine, FP8, thread block clusters
+
+Each generation brings 2-3x AI performance improvement.`
+      }
+    ],
+    visualizations: [
+      {id: 'sm-3d', title: 'SM Architecture 3D', description: '3D exploration of SM components', type: '3d', component: 'SM3D'},
+      {id: 'warp-exec', title: 'Warp Execution Simulator', description: 'Real-time warp scheduling', type: 'interactive', component: 'WarpSim'},
+      {id: 'tensor-core-op', title: 'Tensor Core Operation', description: 'Matrix multiply visualization', type: '2d', component: 'TensorViz'}
+    ],
+    codeExamples: [],
+    quizQuestions: [],
+    exercises: [],
+    resources: []
+  },
+  // MODULE 3
+  {
+    id: 'module3',
+    number: 3,
+    title: 'Memory Hierarchy & Management',
+    subtitle: 'Master GPU memory systems and optimization',
+    description: 'Global, shared, register memory, coalescing, bank conflicts, and bandwidth optimization.',
+    duration: '6-7 hours',
+    difficulty: 'intermediate',
+    prerequisites: ['Module 2: GPU Hardware Architecture'],
+    learningObjectives: [
+      'Navigate the complete GPU memory hierarchy',
+      'Optimize memory access patterns for coalescing',
+      'Resolve shared memory bank conflicts',
+      'Maximize memory bandwidth utilization',
+      'Use unified memory effectively'
+    ],
+    sections: [
+      {
+        id: 'memory-hierarchy',
+        title: 'GPU Memory Types',
+        content: `GPU memory hierarchy from fastest to slowest:
+
+**Registers** (1 cycle): Thread-private, fastest
+**Shared Memory** (~20 cycles): Block-shared, programmable cache
+**L1/L2 Cache** (20-200 cycles): Hardware-managed
+**Global Memory** (400+ cycles): Large but slow
+**Host Memory** (1000s of cycles): Via PCIe
+
+Effective use of each level is critical for performance.`
+      },
+      {
+        id: 'memory-coalescing',
+        title: 'Memory Coalescing',
+        content: `Coalesced memory access = adjacent threads access adjacent memory locations.
+
+**Coalesced (Good)**:
+\`\`\`cuda
+thread 0 → address 0
+thread 1 → address 4  
+thread 2 → address 8
+// One memory transaction!
+\`\`\`
+
+**Uncoalesced (Bad)**:
+\`\`\`cuda
+thread 0 → address 0
+thread 1 → address 128
+thread 2 → address 256
+// Multiple transactions!
+\`\`\`
+
+Coalescing can improve bandwidth by 10-100x.`
+      },
+      {
+        id: 'bank-conflicts',
+        title: 'Shared Memory Bank Conflicts',
+        content: `Shared memory divided into 32 banks. Conflicts occur when multiple threads access the same bank.
+
+**No Conflict**: Different banks
+**2-way Conflict**: 2 threads, same bank (serialized)
+**32-way Conflict**: Worst case (32x slowdown)
+
+Proper padding and access patterns eliminate conflicts.`
+      }
+    ],
+    visualizations: [
+      {id: 'mem-hier-3d', title: 'Memory Hierarchy 3D', description: 'Interactive memory levels', type: '3d', component: 'MemHier3D'},
+      {id: 'coalesce-viz', title: 'Coalescing Visualizer', description: 'See coalesced vs uncoalesced', type: 'interactive', component: 'CoalesceViz'},
+      {id: 'bank-conflict', title: 'Bank Conflict Analyzer', description: 'Detect and fix conflicts', type: 'interactive', component: 'BankConflict'}
+    ],
+    codeExamples: [],
+    quizQuestions: [],
+    exercises: [],
+    resources: []
+  },
+  // MODULE 4
+  {
+    id: 'module4',
+    number: 4,
+    title: 'CUDA Programming Model',
+    subtitle: 'Hands-on CUDA from basics to advanced',
+    description: 'Complete CUDA guide: kernels, threads, blocks, grids, synchronization, streams.',
+    duration: '8-10 hours',
+    difficulty: 'intermediate',
+    prerequisites: ['Module 3: Memory Hierarchy'],
+    learningObjectives: [
+      'Write and launch CUDA kernels',
+      'Master thread indexing patterns',
+      'Implement synchronization correctly',
+      'Use atomic operations safely',
+      'Leverage CUDA streams for concurrency'
+    ],
+    sections: [
+      {
+        id: 'cuda-basics',
+        title: 'CUDA Execution Model',
+        content: `CUDA organizes computation in a 3-level hierarchy:
+
+**Grid**: All threads for one kernel launch
+**Block**: Up to 1024 threads, share shared memory
+**Thread**: Individual execution unit
+
+Each level has 3D indexing (x, y, z dimensions).
+
+**Example**: Processing 1920x1080 image
+- Grid: Multiple blocks covering image
+- Block: 16x16 = 256 threads
+- Each thread processes one pixel`
+      },
+      {
+        id: 'kernel-programming',
+        title: 'Writing CUDA Kernels',
+        content: `Basic CUDA kernel structure:
+
+\`\`\`cuda
+__global__ void vectorAdd(float* A, float* B, float* C, int N) {
+    int idx = blockIdx.x * blockDim.x + threadIdx.x;
+    if (idx < N) {
+        C[idx] = A[idx] + B[idx];
+    }
+}
+
+// Launch
+vectorAdd<<<blocks, threads>>>(d_A, d_B, d_C, N);
+\`\`\`
+
+Key concepts: thread indexing, bounds checking, memory access.`
+      },
+      {
+        id: 'synchronization',
+        title: 'Synchronization & Atomics',
+        content: `**Block-level**: \`__syncthreads()\` - barrier for all threads in block
+**Grid-level**: Kernel completion or cooperative groups
+**Atomic operations**: Thread-safe read-modify-write
+
+\`\`\`cuda
+atomicAdd(&counter, 1);  // Thread-safe increment
+\`\`\`
+
+Use synchronization carefully to avoid deadlocks.`
+      }
+    ],
+    visualizations: [
+      {id: 'thread-hierarchy', title: 'Thread Hierarchy', description: 'Grid/Block/Thread visualization', type: '3d', component: 'ThreadHier'},
+      {id: 'kernel-exec', title: 'Kernel Execution', description: 'Step-by-step kernel execution', type: 'interactive', component: 'KernelExec'},
+      {id: 'sync-demo', title: 'Synchronization Demo', description: 'Race conditions and fixes', type: 'interactive', component: 'SyncDemo'}
+    ],
+    codeExamples: [],
+    quizQuestions: [],
+    exercises: [],
+    resources: []
+  },
+  // MODULE 5
+  {
+    id: 'module5',
+    number: 5,
+    title: 'Performance Optimization',
+    subtitle: 'Advanced techniques for maximum performance',
+    description: 'Occupancy, profiling with NSight, minimizing divergence, achieving peak performance.',
+    duration: '7-8 hours',
+    difficulty: 'advanced',
+    prerequisites: ['Module 4: CUDA Programming'],
+    learningObjectives: [
+      'Calculate and optimize occupancy',
+      'Profile with NSight Systems and Compute',
+      'Minimize branch divergence',
+      'Optimize memory bandwidth',
+      'Apply instruction-level optimizations'
+    ],
+    sections: [
+      {
+        id: 'occupancy-opt',
+        title: 'Occupancy Optimization',
+        content: `Occupancy = Active warps / Max possible warps
+
+**Factors affecting occupancy:**
+- Registers per thread
+- Shared memory per block
+- Threads per block
+- Blocks per SM limit
+
+**Goal**: 50%+ occupancy for good latency hiding
+
+Use CUDA Occupancy Calculator or \`__launch_bounds__\``
+      },
+      {
+        id: 'profiling',
+        title: 'Profiling with NSight',
+        content: `**NSight Systems**: System-wide timeline, kernel launches, memory transfers
+**NSight Compute**: Detailed kernel analysis, roofline model, memory throughput
+
+**Key metrics:**
+- SM occupancy
+- Memory throughput (% of peak)
+- Warp divergence
+- Bank conflicts
+
+Profile → Identify bottleneck → Optimize → Repeat`
+      },
+      {
+        id: 'divergence',
+        title: 'Minimizing Divergence',
+        content: `Warp divergence = threads in same warp take different paths
+
+**Bad:**
+\`\`\`cuda
+if (threadIdx.x % 2 == 0) {
+    // Half threads here
+} else {
+    // Half threads here
+}
+// Serialized! 2x slower
+\`\`\`
+
+**Good:**
+\`\`\`cuda
+if (threadIdx.x < 16) {
+    // First half-warp
+} else {
+    // Second half-warp  
+}
+// Parallel execution
+\`\`\`
+
+Reorganize algorithms to minimize divergence.`
+      }
+    ],
+    visualizations: [
+      {id: 'occupancy-calc', title: 'Occupancy Calculator', description: 'Calculate theoretical occupancy', type: 'interactive', component: 'OccupancyCalc'},
+      {id: 'divergence-viz', title: 'Divergence Visualizer', description: 'See warp divergence impact', type: 'interactive', component: 'DivergenceViz'},
+      {id: 'roofline', title: 'Roofline Model', description: 'Compute vs memory bound analysis', type: '2d', component: 'Roofline'}
+    ],
+    codeExamples: [],
+    quizQuestions: [],
+    exercises: [],
+    resources: []
+  },
+  // MODULE 6
+  {
+    id: 'module6',
+    number: 6,
+    title: 'Deep Learning on GPUs',
+    subtitle: 'GPU optimization for neural networks',
+    description: 'cuDNN, tensor operations, mixed precision, PyTorch/TensorFlow internals.',
+    duration: '10-12 hours',
+    difficulty: 'advanced',
+    prerequisites: ['Module 5: Performance Optimization'],
+    learningObjectives: [
+      'Leverage cuDNN and cuBLAS libraries',
+      'Implement mixed precision training',
+      'Understand PyTorch/TensorFlow GPU internals',
+      'Optimize training and inference loops',
+      'Profile deep learning workloads'
+    ],
+    sections: [
+      {
+        id: 'cudnn-cublas',
+        title: 'cuDNN and cuBLAS',
+        content: `**cuDNN**: Optimized primitives for deep learning
+- Convolutions (Winograd, FFT, direct)
+- Pooling, normalization, activation
+- RNN, LSTM, GRU
+
+**cuBLAS**: Optimized linear algebra
+- GEMM (matrix multiply)
+- GEMV (matrix-vector)
+- Batched operations
+
+PyTorch and TensorFlow use these libraries automatically.`
+      },
+      {
+        id: 'mixed-precision',
+        title: 'Mixed Precision Training',
+        content: `Use FP16 for computation, FP32 for critical ops:
+
+**Benefits:**
+- 2-3x faster (Tensor Cores)
+- 50% less memory
+- Minimal accuracy loss
+
+**PyTorch AMP:**
+\`\`\`python
+from torch.cuda.amp import autocast, GradScaler
+
+scaler = GradScaler()
+with autocast():
+    output = model(input)
+    loss = criterion(output, target)
+scaler.scale(loss).backward()
+scaler.step(optimizer)
+\`\`\`
+
+Automatic Tensor Core utilization!`
+      },
+      {
+        id: 'dl-optimization',
+        title: 'Deep Learning Optimization',
+        content: `**Key optimizations:**
+- Maximize batch size (GPU utilization)
+- Use channels_last memory format (convolutions)
+- Enable cuDNN benchmarking
+- Gradient accumulation for large models
+- Async data loading (num_workers, pin_memory)
+
+**Memory optimization:**
+- Gradient checkpointing
+- Model parallelism
+- Activation recomputation
+
+**Inference optimization:**
+- TorchScript compilation
+- ONNX + TensorRT
+- Quantization (INT8)`
+      }
+    ],
+    visualizations: [
+      {id: 'conv-viz', title: 'Convolution Visualization', description: 'How convs execute on GPU', type: '3d', component: 'ConvViz'},
+      {id: 'mixed-prec', title: 'Mixed Precision Demo', description: 'FP16 vs FP32 performance', type: 'interactive', component: 'MixedPrecViz'},
+      {id: 'training-profile', title: 'Training Profiler', description: 'Interactive training analysis', type: 'interactive', component: 'TrainingProfile'}
+    ],
+    codeExamples: [],
+    quizQuestions: [],
+    exercises: [],
+    resources: []
+  },
+  // MODULE 7
+  {
+    id: 'module7',
+    number: 7,
+    title: 'Multi-GPU & Distributed Computing',
+    subtitle: 'Scale across multiple GPUs and nodes',
+    description: 'Data/model parallelism, NCCL, distributed training strategies.',
+    duration: '6-7 hours',
+    difficulty: 'advanced',
+    prerequisites: ['Module 6: Deep Learning on GPUs'],
+    learningObjectives: [
+      'Implement data parallelism (DP, DDP)',
+      'Apply model parallelism for large models',
+      'Use NCCL for collective operations',
+      'Set up distributed training',
+      'Optimize gradient synchronization'
+    ],
+    sections: [
+      {
+        id: 'data-parallelism',
+        title: 'Data Parallelism',
+        content: `Replicate model across GPUs, split data:
+
+**DataParallel (DP)**: Simple but slower (single-process)
+**DistributedDataParallel (DDP)**: Faster (multi-process)
+
+\`\`\`python
+# DDP setup
+model = DistributedDataParallel(model, device_ids=[local_rank])
+
+# Automatic gradient synchronization
+loss.backward()  # All-reduce gradients across GPUs
+optimizer.step()
+\`\`\`
+
+**Speedup**: Nearly linear for large batch sizes`
+      },
+      {
+        id: 'model-parallelism',
+        title: 'Model Parallelism',
+        content: `Split model across GPUs when it doesn't fit on one:
+
+**Pipeline Parallelism**: Different layers on different GPUs
+**Tensor Parallelism**: Split tensors within layers
+
+**Example (GPT-3 scale):**
+- Model: 175B parameters → 350 GB (FP16)
+- Single A100: 40 GB → Need 9+ GPUs
+- Use model parallelism + ZeRO optimizer
+
+Tools: DeepSpeed, Megatron-LM, FairScale`
+      },
+      {
+        id: 'nccl',
+        title: 'NCCL and Collective Operations',
+        content: `NCCL: NVIDIA Collective Communications Library
+
+**Operations:**
+- AllReduce: Sum gradients across GPUs
+- Broadcast: Send data to all GPUs
+- AllGather: Collect data from all GPUs
+- ReduceScatter: Reduce and distribute
+
+**Performance:**
+- NVLink: 600 GB/s per link
+- PCIe: 64 GB/s
+- Network: 100-400 Gbps InfiniBand
+
+Optimize communication vs computation overlap.`
+      }
+    ],
+    visualizations: [
+      {id: 'multi-gpu', title: 'Multi-GPU Visualization', description: 'Data flow across GPUs', type: '3d', component: 'MultiGPUViz'},
+      {id: 'nccl-ops', title: 'NCCL Operations', description: 'Collective ops animation', type: 'interactive', component: 'NCCLOps'},
+      {id: 'scaling', title: 'Scaling Efficiency', description: 'Multi-GPU speedup analysis', type: '2d', component: 'ScalingViz'}
+    ],
+    codeExamples: [],
+    quizQuestions: [],
+    exercises: [],
+    resources: []
+  },
+  // MODULE 8
+  {
+    id: 'module8',
+    number: 8,
+    title: 'Advanced Topics & Future Trends',
+    subtitle: 'Cutting-edge GPU technologies',
+    description: 'Ray tracing, sparse operations, transformer acceleration, future architectures.',
+    duration: '5-6 hours',
+    difficulty: 'advanced',
+    prerequisites: ['Module 7: Multi-GPU Computing'],
+    learningObjectives: [
+      'Understand RT cores and ray tracing',
+      'Implement sparse matrix operations',
+      'Optimize transformers for GPUs',
+      'Explore emerging GPU technologies',
+      'Anticipate future architecture trends'
+    ],
+    sections: [
+      {
+        id: 'ray-tracing',
+        title: 'RT Cores and Ray Tracing',
+        content: `RT Cores accelerate ray tracing operations:
+
+**Operations:**
+- BVH traversal
+- Ray-triangle intersection
+- Ray-box intersection
+
+**Performance:** 10+ Giga Rays/sec (RTX 4090)
+
+**ML Applications:**
+- NeRF (Neural Radiance Fields)
+- 3D reconstruction
+- Photorealistic rendering for synthetic data`
+      },
+      {
+        id: 'sparse-ops',
+        title: 'Sparse Operations',
+        content: `**Structured Sparsity (2:4):**
+- 2 zeros in every 4 values
+- 2x speedup on Ampere+ Tensor Cores
+- Neural network pruning
+
+**Benefits:**
+- Reduced memory
+- Faster inference
+- Maintained accuracy (with fine-tuning)
+
+**Libraries:** NVIDIA cuSPARSE, PyTorch sparse tensors`
+      },
+      {
+        id: 'transformer-accel',
+        title: 'Transformer Acceleration',
+        content: `Transformers dominate modern AI. GPU optimizations:
+
+**Flash Attention:**
+- Fused attention kernel
+- 2-4x speedup, less memory
+- Standard in PyTorch 2.0+
+
+**FP8 (Hopper):**
+- Transformer Engine
+- 2x speedup vs FP16
+- Dynamic scaling
+
+**Multi-Query Attention:**
+- Optimized for inference
+- Better GPU utilization
+
+Future: Hardware-specific transformer ops`
+      },
+      {
+        id: 'future-trends',
+        title: 'Future GPU Architectures',
+        content: `**Emerging Trends:**
+
+**Multi-Chiplet Designs:**
+- Scale beyond monolithic limits
+- Mix-and-match components
+
+**Near-Memory Computing:**
+- Processing-in-memory (PIM)
+- Reduce data movement
+
+**Optical Interconnects:**
+- Photonics for GPU-GPU communication
+- 1000x bandwidth potential
+
+**Neuromorphic Integration:**
+- Spiking neural networks
+- Event-driven processing
+
+**Quantum-GPU Hybrid:**
+- GPU for classical, QPU for quantum
+- Variational quantum algorithms
+
+The future of computing is heterogeneous!`
+      }
+    ],
+    visualizations: [
+      {id: 'rt-core-viz', title: 'RT Core Operation', description: 'Ray tracing visualization', type: '3d', component: 'RTCoreViz'},
+      {id: 'sparse-viz', title: 'Sparse Matrix Demo', description: '2:4 sparsity pattern', type: 'interactive', component: 'SparseViz'},
+      {id: 'future-arch', title: 'Future Architecture', description: 'Conceptual next-gen GPU', type: '3d', component: 'FutureArch'}
     ],
     codeExamples: [],
     quizQuestions: [],
