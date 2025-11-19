@@ -1,0 +1,848 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Module 1: Introduction to GPU Computing | GPU Architecture Mastery</title>
+    <link rel="stylesheet" href="../../css/main.css">
+    <link rel="stylesheet" href="../../css/animations.css">
+    <link rel="stylesheet" href="module.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="container">
+            <div class="logo">
+                <a href="../../index.html"><i class="fas fa-microchip"></i> GPU Architecture Mastery</a>
+            </div>
+            <ul class="nav-links">
+                <li><a href="#intro">Introduction</a></li>
+                <li><a href="#theory">Theory</a></li>
+                <li><a href="#visualizations">Visualizations</a></li>
+                <li><a href="#examples">Examples</a></li>
+                <li><a href="#quiz">Quiz</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="module-header-banner">
+        <div class="container">
+            <div class="breadcrumb">
+                <a href="../../index.html">Home</a> / <a href="../../index.html#modules">Modules</a> / Module 1
+            </div>
+            <h1>Module 1: Introduction to GPU Computing</h1>
+            <p class="module-tagline">Understanding the fundamentals of parallel computing and GPU architecture</p>
+            <div class="module-meta">
+                <span><i class="fas fa-clock"></i> 3-4 hours</span>
+                <span><i class="fas fa-signal"></i> Beginner</span>
+                <span><i class="fas fa-check-circle"></i> 4 Sections</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="container module-content-wrapper">
+        <aside class="sidebar">
+            <div class="sidebar-sticky">
+                <h3>Table of Contents</h3>
+                <ul class="toc">
+                    <li><a href="#intro">Overview</a></li>
+                    <li><a href="#section1">1. Evolution of GPU Architecture</a></li>
+                    <li><a href="#section2">2. Parallelism Fundamentals</a></li>
+                    <li><a href="#section3">3. CPU vs GPU</a></li>
+                    <li><a href="#section4">4. GPUs in Modern AI</a></li>
+                    <li><a href="#visualizations">Interactive Visualizations</a></li>
+                    <li><a href="#examples">Code Examples</a></li>
+                    <li><a href="#quiz">Knowledge Check</a></li>
+                    <li><a href="#resources">Additional Resources</a></li>
+                </ul>
+                <div class="progress-indicator">
+                    <h4>Your Progress</h4>
+                    <div class="progress-bar-container">
+                        <div class="progress-bar" id="module-progress" style="width: 0%"></div>
+                    </div>
+                    <span id="progress-text">0% Complete</span>
+                </div>
+            </div>
+        </aside>
+
+        <main class="module-content">
+            <section id="intro" class="content-section">
+                <h2>Module Overview</h2>
+                <div class="overview-card">
+                    <p class="lead">Welcome to the first module of GPU Architecture Mastery! In this module, you'll learn the foundational concepts of GPU computing, understand why GPUs have become essential for machine learning and data science, and explore the fundamental differences between CPU and GPU architectures.</p>
+
+                    <div class="learning-objectives">
+                        <h3>Learning Objectives</h3>
+                        <ul>
+                            <li><i class="fas fa-check"></i> Understand the historical evolution of GPU architecture from graphics processors to general-purpose computing</li>
+                            <li><i class="fas fa-check"></i> Grasp the fundamental concepts of parallel computing and data parallelism</li>
+                            <li><i class="fas fa-check"></i> Compare and contrast CPU and GPU architectures, understanding when to use each</li>
+                            <li><i class="fas fa-check"></i> Recognize the critical role of GPUs in modern deep learning and AI applications</li>
+                            <li><i class="fas fa-check"></i> Identify the key performance metrics and characteristics of GPU computing</li>
+                        </ul>
+                    </div>
+
+                    <div class="prerequisites">
+                        <h3>Prerequisites</h3>
+                        <p>This module assumes basic programming knowledge (Python preferred) and familiarity with computer architecture concepts. No prior GPU programming experience required.</p>
+                    </div>
+                </div>
+            </section>
+
+            <section id="section1" class="content-section">
+                <h2>1. Evolution of GPU Architecture</h2>
+
+                <div class="theory-block">
+                    <h3>From Graphics to General Computing</h3>
+                    <p>Graphics Processing Units (GPUs) were originally designed for a single purpose: rendering graphics for video games and professional visualization. However, their evolution into powerful parallel computing engines has revolutionized scientific computing, machine learning, and data science.</p>
+
+                    <h4>The Early Days (1990s-2000s)</h4>
+                    <p>In the 1990s, GPUs were fixed-function pipelines designed exclusively for graphics rendering. They could perform specific operations like vertex transformation and pixel shading, but couldn't be programmed for general tasks.</p>
+
+                    <div class="timeline">
+                        <div class="timeline-item">
+                            <div class="timeline-marker">1999</div>
+                            <div class="timeline-content">
+                                <h4>NVIDIA GeForce 256</h4>
+                                <p>First GPU to perform transform and lighting calculations. Coined the term "GPU".</p>
+                            </div>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="timeline-marker">2006</div>
+                            <div class="timeline-content">
+                                <h4>CUDA Launch</h4>
+                                <p>NVIDIA introduces CUDA, making GPUs programmable for general-purpose computing.</p>
+                            </div>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="timeline-marker">2012</div>
+                            <div class="timeline-content">
+                                <h4>Deep Learning Revolution</h4>
+                                <p>AlexNet wins ImageNet using GPUs, proving their value for deep learning.</p>
+                            </div>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="timeline-marker">2017</div>
+                            <div class="timeline-content">
+                                <h4>Tensor Cores</h4>
+                                <p>NVIDIA Volta architecture introduces specialized tensor cores for AI workloads.</p>
+                            </div>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="timeline-marker">2022</div>
+                            <div class="timeline-content">
+                                <h4>Hopper Architecture</h4>
+                                <p>H100 GPU with Transformer Engine for large language models.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <h4>The GPGPU Revolution</h4>
+                    <p><strong>General-Purpose computing on Graphics Processing Units (GPGPU)</strong> emerged when researchers realized that GPUs' massive parallel processing power could be harnessed for non-graphics tasks. This was initially challenging because it required "tricking" graphics APIs into performing general computations.</p>
+
+                    <div class="insight-box">
+                        <i class="fas fa-lightbulb"></i>
+                        <div>
+                            <h4>Key Insight</h4>
+                            <p>The introduction of CUDA in 2006 was a watershed moment. It provided a C-like programming interface that made GPUs accessible to scientists and engineers without graphics programming expertise. This democratization of GPU computing accelerated innovation across many fields.</p>
+                        </div>
+                    </div>
+
+                    <h4>Modern GPU Architectures</h4>
+                    <p>Today's GPUs are sophisticated parallel processors with:</p>
+                    <ul>
+                        <li><strong>Thousands of cores</strong> for massive parallelism</li>
+                        <li><strong>Specialized units</strong> like Tensor Cores for AI acceleration</li>
+                        <li><strong>High-bandwidth memory</strong> (HBM) for fast data access</li>
+                        <li><strong>Advanced interconnects</strong> like NVLink for multi-GPU systems</li>
+                        <li><strong>Programmable execution</strong> through CUDA, OpenCL, and other APIs</li>
+                    </ul>
+                </div>
+
+                <div class="interactive-demo">
+                    <h4>Interactive: GPU Evolution Timeline</h4>
+                    <div id="evolution-viz" class="visualization-container">
+                        <canvas id="evolution-canvas"></canvas>
+                    </div>
+                    <p class="viz-caption">Click on the timeline to explore different GPU generations and their capabilities.</p>
+                </div>
+            </section>
+
+            <section id="section2" class="content-section">
+                <h2>2. Parallelism Fundamentals</h2>
+
+                <div class="theory-block">
+                    <h3>Understanding Parallel Computing</h3>
+                    <p>To appreciate GPU architecture, you must first understand parallel computing. The fundamental idea is simple: <strong>divide a large problem into smaller sub-problems that can be solved simultaneously.</strong></p>
+
+                    <h4>Types of Parallelism</h4>
+
+                    <div class="concept-grid">
+                        <div class="concept-card">
+                            <h4>Task Parallelism</h4>
+                            <p>Different tasks run simultaneously on different data. Like having multiple chefs preparing different dishes at the same time.</p>
+                            <div class="example-box">
+                                <strong>Example:</strong> Running preprocessing, training, and validation pipelines concurrently.
+                            </div>
+                        </div>
+
+                        <div class="concept-card">
+                            <h4>Data Parallelism</h4>
+                            <p>The same operation applied to different data elements simultaneously. This is the GPU's strength!</p>
+                            <div class="example-box">
+                                <strong>Example:</strong> Applying a ReLU activation function to millions of neurons in a neural network layer.
+                            </div>
+                        </div>
+
+                        <div class="concept-card">
+                            <h4>Pipeline Parallelism</h4>
+                            <p>Different stages of a process execute concurrently on different data. Like an assembly line.</p>
+                            <div class="example-box">
+                                <strong>Example:</strong> Instruction pipelining in processors or model parallelism in large neural networks.
+                            </div>
+                        </div>
+                    </div>
+
+                    <h4>Flynn's Taxonomy</h4>
+                    <p>In computer architecture, we classify systems using Flynn's Taxonomy:</p>
+
+                    <table class="theory-table">
+                        <thead>
+                            <tr>
+                                <th>Classification</th>
+                                <th>Description</th>
+                                <th>Example</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong>SISD</strong><br>Single Instruction, Single Data</td>
+                                <td>Traditional sequential computer</td>
+                                <td>Old single-core CPUs</td>
+                            </tr>
+                            <tr>
+                                <td><strong>SIMD</strong><br>Single Instruction, Multiple Data</td>
+                                <td>Same operation on multiple data</td>
+                                <td><span class="highlight">GPUs, Vector processors</span></td>
+                            </tr>
+                            <tr>
+                                <td><strong>MISD</strong><br>Multiple Instruction, Single Data</td>
+                                <td>Different operations on same data</td>
+                                <td>Fault-tolerant systems</td>
+                            </tr>
+                            <tr>
+                                <td><strong>MIMD</strong><br>Multiple Instruction, Multiple Data</td>
+                                <td>Different operations on different data</td>
+                                <td>Multi-core CPUs, Computer clusters</td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <div class="note-box">
+                        <i class="fas fa-info-circle"></i>
+                        <div>
+                            <h4>Important Note</h4>
+                            <p>GPUs are primarily SIMD architectures, but modern GPUs also support MIMD-like execution through multiple streaming multiprocessors. This hybrid approach provides both massive data parallelism and flexibility.</p>
+                        </div>
+                    </div>
+
+                    <h4>Amdahl's Law</h4>
+                    <p>A critical concept in parallel computing is <strong>Amdahl's Law</strong>, which tells us the theoretical speedup limit when parallelizing a program:</p>
+
+                    <div class="formula-box">
+                        <p class="formula">Speedup = 1 / ((1 - P) + P/N)</p>
+                        <p>Where:</p>
+                        <ul>
+                            <li><strong>P</strong> = Proportion of program that can be parallelized</li>
+                            <li><strong>N</strong> = Number of processors</li>
+                        </ul>
+                    </div>
+
+                    <p>Key takeaway: Even with infinite processors, you can't overcome the sequential portion of your code. If 10% of your code must run sequentially, maximum speedup is 10x, regardless of how many processors you have!</p>
+
+                    <div class="example-calculation">
+                        <h4>Example Calculation</h4>
+                        <p>Suppose 95% of your code can be parallelized (P = 0.95) and you have 100 GPU cores (N = 100):</p>
+                        <p class="formula">Speedup = 1 / ((1 - 0.95) + 0.95/100) = 1 / 0.0595 ≈ 16.8x</p>
+                        <p>Even though we have 100 cores, we only achieve 16.8x speedup due to the 5% sequential portion!</p>
+                    </div>
+                </div>
+            </section>
+
+            <section id="section3" class="content-section">
+                <h2>3. CPU vs GPU Architecture</h2>
+
+                <div class="theory-block">
+                    <h3>Architectural Philosophy</h3>
+                    <p>CPUs and GPUs are designed with fundamentally different philosophies:</p>
+
+                    <div class="comparison-container">
+                        <div class="comparison-side cpu-side">
+                            <h4><i class="fas fa-microchip"></i> CPU: Jack of All Trades</h4>
+                            <ul>
+                                <li>Optimized for <strong>low-latency</strong> execution</li>
+                                <li>Few (4-64) powerful cores</li>
+                                <li>Large caches for data locality</li>
+                                <li>Complex control logic and branch prediction</li>
+                                <li>Best for sequential, complex tasks</li>
+                            </ul>
+                        </div>
+
+                        <div class="comparison-side gpu-side">
+                            <h4><i class="fas fa-bolt"></i> GPU: Specialized Powerhouse</h4>
+                            <ul>
+                                <li>Optimized for <strong>high-throughput</strong> computation</li>
+                                <li>Thousands (5,000-20,000+) of simple cores</li>
+                                <li>Smaller caches, massive bandwidth</li>
+                                <li>Simple control logic, SIMD execution</li>
+                                <li>Best for parallel, data-intensive tasks</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <h4>Die Area Allocation</h4>
+                    <p>Here's how CPUs and GPUs allocate their silicon real estate differently:</p>
+
+                    <div class="architecture-diagram">
+                        <div class="arch-visual cpu-arch">
+                            <h5>CPU Die</h5>
+                            <div class="die-section cache" style="flex: 3">Cache</div>
+                            <div class="die-section control" style="flex: 2">Control</div>
+                            <div class="die-section alu" style="flex: 1">ALU</div>
+                        </div>
+                        <div class="arch-visual gpu-arch">
+                            <h5>GPU Die</h5>
+                            <div class="die-section cache" style="flex: 1">Cache</div>
+                            <div class="die-section control" style="flex: 1">Control</div>
+                            <div class="die-section alu" style="flex: 4">ALU (Thousands!)</div>
+                        </div>
+                    </div>
+
+                    <p>CPUs dedicate substantial area to cache and control logic for fast sequential execution. GPUs maximize arithmetic logic units (ALUs) for massive parallel computation.</p>
+
+                    <h4>Performance Comparison</h4>
+
+                    <table class="theory-table">
+                        <thead>
+                            <tr>
+                                <th>Metric</th>
+                                <th>Modern CPU</th>
+                                <th>Modern GPU</th>
+                                <th>GPU Advantage</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Cores</td>
+                                <td>8-64</td>
+                                <td>5,000-20,000+</td>
+                                <td class="highlight">~100-500x</td>
+                            </tr>
+                            <tr>
+                                <td>Peak FLOPS (FP32)</td>
+                                <td>~1-2 TFLOPS</td>
+                                <td>~20-80 TFLOPS</td>
+                                <td class="highlight">~20-40x</td>
+                            </tr>
+                            <tr>
+                                <td>Memory Bandwidth</td>
+                                <td>~50-100 GB/s</td>
+                                <td>~1,000-3,000 GB/s</td>
+                                <td class="highlight">~20-30x</td>
+                            </tr>
+                            <tr>
+                                <td>Power Consumption</td>
+                                <td>65-250W</td>
+                                <td>250-700W</td>
+                                <td>Higher</td>
+                            </tr>
+                            <tr>
+                                <td>Cost</td>
+                                <td>$300-$1,000</td>
+                                <td>$1,000-$30,000+</td>
+                                <td>Higher</td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <div class="insight-box">
+                        <i class="fas fa-lightbulb"></i>
+                        <div>
+                            <h4>Key Insight</h4>
+                            <p>The GPU's advantage isn't just in raw core count—it's the combination of massive parallelism, high memory bandwidth, and specialized hardware (like tensor cores) that makes it ideal for ML/DL workloads.</p>
+                        </div>
+                    </div>
+
+                    <h4>When to Use CPU vs GPU</h4>
+
+                    <div class="decision-matrix">
+                        <div class="decision-card">
+                            <h5>Use CPU When:</h5>
+                            <ul>
+                                <li><i class="fas fa-check"></i> Task is inherently sequential</li>
+                                <li><i class="fas fa-check"></i> Complex branching logic required</li>
+                                <li><i class="fas fa-check"></i> Small dataset (overhead not worth it)</li>
+                                <li><i class="fas fa-check"></i> Low latency is critical</li>
+                                <li><i class="fas fa-check"></i> Frequent communication with OS/peripherals</li>
+                            </ul>
+                        </div>
+
+                        <div class="decision-card">
+                            <h5>Use GPU When:</h5>
+                            <ul>
+                                <li><i class="fas fa-check"></i> Massive data parallelism available</li>
+                                <li><i class="fas fa-check"></i> Same operation on many data elements</li>
+                                <li><i class="fas fa-check"></i> Matrix operations (ML/DL)</li>
+                                <li><i class="fas fa-check"></i> High throughput more important than latency</li>
+                                <li><i class="fas fa-check"></i> Minimal branching in hot loops</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section id="section4" class="content-section">
+                <h2>4. GPUs in Modern AI and Machine Learning</h2>
+
+                <div class="theory-block">
+                    <h3>Why GPUs Dominate Deep Learning</h3>
+                    <p>Deep learning and GPUs are a perfect match. Here's why:</p>
+
+                    <h4>1. Matrix Operations Everywhere</h4>
+                    <p>Neural networks are fundamentally about matrix multiplication and element-wise operations:</p>
+
+                    <div class="formula-box">
+                        <p><strong>Forward Pass:</strong> Y = σ(W × X + b)</p>
+                        <p><strong>Backward Pass:</strong> ∂L/∂W = ∂L/∂Y × X<sup>T</sup></p>
+                        <p>Both involve massive matrix multiplications—perfect for GPUs!</p>
+                    </div>
+
+                    <h4>2. Data Parallelism in Mini-Batch Training</h4>
+                    <p>Modern deep learning uses mini-batch gradient descent:</p>
+                    <ul>
+                        <li>Process 32, 64, 256+ samples simultaneously</li>
+                        <li>Each sample undergoes identical operations</li>
+                        <li>Perfect for GPU's SIMD architecture</li>
+                    </ul>
+
+                    <h4>3. The Deep Learning Training Pipeline</h4>
+
+                    <div class="pipeline-visual">
+                        <div class="pipeline-stage">
+                            <h5>Data Loading</h5>
+                            <p>Batch of images/text loaded to GPU memory</p>
+                            <span class="parallel-indicator">Parallelizable ✓</span>
+                        </div>
+                        <div class="pipeline-arrow">→</div>
+                        <div class="pipeline-stage">
+                            <h5>Forward Pass</h5>
+                            <p>Matrix multiplications through all layers</p>
+                            <span class="parallel-indicator">Highly Parallel ✓✓✓</span>
+                        </div>
+                        <div class="pipeline-arrow">→</div>
+                        <div class="pipeline-stage">
+                            <h5>Loss Computation</h5>
+                            <p>Calculate error across batch</p>
+                            <span class="parallel-indicator">Parallelizable ✓</span>
+                        </div>
+                        <div class="pipeline-arrow">→</div>
+                        <div class="pipeline-stage">
+                            <h5>Backward Pass</h5>
+                            <p>Gradient computation through layers</p>
+                            <span class="parallel-indicator">Highly Parallel ✓✓✓</span>
+                        </div>
+                        <div class="pipeline-arrow">→</div>
+                        <div class="pipeline-stage">
+                            <h5>Weight Update</h5>
+                            <p>Update millions of parameters</p>
+                            <span class="parallel-indicator">Highly Parallel ✓✓✓</span>
+                        </div>
+                    </div>
+
+                    <h4>Real-World Impact</h4>
+
+                    <div class="impact-stats">
+                        <div class="stat-card">
+                            <div class="stat-number">~100x</div>
+                            <div class="stat-label">Speedup for training ResNet-50 on ImageNet</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-number">Days → Hours</div>
+                            <div class="stat-label">Training time reduction for BERT models</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-number">1000x+</div>
+                            <div class="stat-label">Improvement in AI research iteration speed</div>
+                        </div>
+                    </div>
+
+                    <div class="case-study">
+                        <h4>Case Study: Training GPT-3</h4>
+                        <p>GPT-3, with 175 billion parameters, was trained on thousands of NVIDIA V100 GPUs. Key facts:</p>
+                        <ul>
+                            <li>Would take <strong>355 years</strong> on a single V100</li>
+                            <li>Used approximately <strong>10,000 V100s</strong> in parallel</li>
+                            <li>Consumed roughly <strong>3,640 petaflop/s-days</strong> of compute</li>
+                            <li>Without GPUs, such models would be practically impossible</li>
+                        </ul>
+                    </div>
+
+                    <h4>Specialized GPU Features for AI</h4>
+
+                    <div class="feature-list">
+                        <div class="feature-item">
+                            <h5><i class="fas fa-cube"></i> Tensor Cores</h5>
+                            <p>Specialized units for mixed-precision matrix multiplication, offering up to 8x speedup for AI workloads compared to standard CUDA cores.</p>
+                        </div>
+
+                        <div class="feature-item">
+                            <h5><i class="fas fa-memory"></i> High Bandwidth Memory (HBM)</h5>
+                            <p>Up to 3 TB/s bandwidth to feed thousands of cores with data, crucial for large model training.</p>
+                        </div>
+
+                        <div class="feature-item">
+                            <h5><i class="fas fa-network-wired"></i> NVLink</h5>
+                            <p>High-speed interconnect (up to 900 GB/s) enabling efficient multi-GPU training and model parallelism.</p>
+                        </div>
+
+                        <div class="feature-item">
+                            <h5><i class="fas fa-brain"></i> Transformer Engine</h5>
+                            <p>Latest architectures include specialized hardware for transformer models, the backbone of modern LLMs.</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section id="visualizations" class="content-section">
+                <h2>Interactive Visualizations</h2>
+
+                <div class="viz-collection">
+                    <div class="viz-item">
+                        <h3>CPU vs GPU Architecture</h3>
+                        <div class="visualization-container">
+                            <canvas id="cpu-gpu-comparison"></canvas>
+                        </div>
+                        <div class="viz-controls">
+                            <button class="btn btn-small" onclick="animateCPU()">Animate CPU Task</button>
+                            <button class="btn btn-small" onclick="animateGPU()">Animate GPU Task</button>
+                            <button class="btn btn-small" onclick="compareBoth()">Compare Both</button>
+                        </div>
+                        <p class="viz-description">See how CPUs and GPUs process the same task differently. The CPU executes sequentially with powerful cores, while the GPU distributes work across thousands of smaller cores.</p>
+                    </div>
+
+                    <div class="viz-item">
+                        <h3>Parallel Speedup Calculator</h3>
+                        <div class="interactive-calculator">
+                            <div class="calc-input">
+                                <label>Parallelizable Portion (%): <span id="p-value">95</span></label>
+                                <input type="range" id="parallel-portion" min="0" max="100" value="95" oninput="updateSpeedup()">
+                            </div>
+                            <div class="calc-input">
+                                <label>Number of Cores: <span id="n-value">100</span></label>
+                                <input type="range" id="num-cores" min="1" max="10000" value="100" oninput="updateSpeedup()">
+                            </div>
+                            <div class="calc-result">
+                                <h4>Theoretical Speedup: <span id="speedup-result">16.8x</span></h4>
+                                <div class="speedup-chart">
+                                    <canvas id="speedup-chart"></canvas>
+                                </div>
+                            </div>
+                        </div>
+                        <p class="viz-description">Explore Amdahl's Law interactively. Adjust the sliders to see how parallelizable portion and core count affect maximum speedup.</p>
+                    </div>
+
+                    <div class="viz-item">
+                        <h3>Matrix Multiplication: CPU vs GPU</h3>
+                        <div class="visualization-container">
+                            <canvas id="matmul-viz"></canvas>
+                        </div>
+                        <div class="viz-controls">
+                            <label>Matrix Size: <span id="matrix-size">8x8</span></label>
+                            <input type="range" id="matrix-size-slider" min="4" max="32" value="8" step="4">
+                            <button class="btn btn-small" onclick="runMatMul()">Run Visualization</button>
+                        </div>
+                        <p class="viz-description">Watch how matrix multiplication is performed on CPU (sequential) vs GPU (parallel). Notice the dramatic difference as matrix size increases!</p>
+                    </div>
+                </div>
+            </section>
+
+            <section id="examples" class="content-section">
+                <h2>Python Code Examples</h2>
+
+                <div class="example-block">
+                    <h3>Example 1: Checking GPU Availability</h3>
+                    <p>First step in any GPU-accelerated project: verify GPU access.</p>
+
+                    <div class="code-example">
+                        <div class="code-header">
+                            <span class="code-lang">Python</span>
+                            <button class="copy-btn" onclick="copyCode(this)"><i class="fas fa-copy"></i> Copy</button>
+                        </div>
+                        <pre><code class="language-python">import torch
+import tensorflow as tf
+
+# PyTorch GPU Check
+print("PyTorch CUDA Available:", torch.cuda.is_available())
+if torch.cuda.is_available():
+    print(f"GPU Device: {torch.cuda.get_device_name(0)}")
+    print(f"Number of GPUs: {torch.cuda.device_count()}")
+    print(f"CUDA Version: {torch.version.cuda}")
+
+# TensorFlow GPU Check
+print("\nTensorFlow GPU Devices:")
+gpus = tf.config.list_physical_devices('GPU')
+for gpu in gpus:
+    print(f"  {gpu}")
+
+# Display GPU properties
+if torch.cuda.is_available():
+    device = torch.cuda.current_device()
+    print(f"\nGPU Memory: {torch.cuda.get_device_properties(device).total_memory / 1e9:.2f} GB")
+    print(f"Multiprocessors: {torch.cuda.get_device_properties(device).multi_processor_count}")
+</code></pre>
+                    </div>
+
+                    <div class="example-output">
+                        <h4>Expected Output:</h4>
+                        <pre>PyTorch CUDA Available: True
+GPU Device: NVIDIA A100-SXM4-40GB
+Number of GPUs: 1
+CUDA Version: 11.8
+
+TensorFlow GPU Devices:
+  PhysicalDevice(name='/physical_device:GPU:0', device_type='GPU')
+
+GPU Memory: 40.00 GB
+Multiprocessors: 108</pre>
+                    </div>
+                </div>
+
+                <div class="example-block">
+                    <h3>Example 2: CPU vs GPU Performance Comparison</h3>
+                    <p>Benchmark matrix multiplication on CPU vs GPU to see the speedup.</p>
+
+                    <div class="code-example">
+                        <div class="code-header">
+                            <span class="code-lang">Python</span>
+                            <button class="copy-btn" onclick="copyCode(this)"><i class="fas fa-copy"></i> Copy</button>
+                        </div>
+                        <pre><code class="language-python">import torch
+import time
+import numpy as np
+
+def benchmark_matmul(size=4096, device='cpu'):
+    """Benchmark matrix multiplication on specified device."""
+    # Create random matrices
+    A = torch.randn(size, size, device=device)
+    B = torch.randn(size, size, device=device)
+
+    # Warmup
+    for _ in range(3):
+        C = torch.matmul(A, B)
+
+    # Synchronize GPU before timing
+    if device == 'cuda':
+        torch.cuda.synchronize()
+
+    # Benchmark
+    start = time.time()
+    for _ in range(10):
+        C = torch.matmul(A, B)
+
+    if device == 'cuda':
+        torch.cuda.synchronize()
+
+    end = time.time()
+    avg_time = (end - start) / 10
+
+    # Calculate FLOPS
+    flops = 2 * size**3  # Matrix multiply requires 2n^3 operations
+    gflops = (flops / avg_time) / 1e9
+
+    return avg_time, gflops
+
+# Run benchmarks
+print("Matrix Multiplication Benchmark (4096 x 4096)")
+print("=" * 50)
+
+cpu_time, cpu_gflops = benchmark_matmul(size=4096, device='cpu')
+print(f"CPU: {cpu_time*1000:.2f} ms ({cpu_gflops:.2f} GFLOPS)")
+
+if torch.cuda.is_available():
+    gpu_time, gpu_gflops = benchmark_matmul(size=4096, device='cuda')
+    print(f"GPU: {gpu_time*1000:.2f} ms ({gpu_gflops:.2f} GFLOPS)")
+    print(f"\nSpeedup: {cpu_time/gpu_time:.2f}x")
+    print(f"GFLOPS Improvement: {gpu_gflops/cpu_gflops:.2f}x")
+</code></pre>
+                    </div>
+
+                    <div class="example-output">
+                        <h4>Expected Output:</h4>
+                        <pre>Matrix Multiplication Benchmark (4096 x 4096)
+==================================================
+CPU: 1243.50 ms (110.45 GFLOPS)
+GPU: 12.34 ms (11134.57 GFLOPS)
+
+Speedup: 100.73x
+GFLOPS Improvement: 100.81x</pre>
+                    </div>
+
+                    <div class="note-box">
+                        <i class="fas fa-info-circle"></i>
+                        <div>
+                            <h4>Understanding the Results</h4>
+                            <p>The GPU achieves ~100x speedup for large matrix multiplication! This dramatic improvement is why GPUs are essential for deep learning, where such operations happen millions of times during training.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="example-block">
+                    <h3>Example 3: Data Parallelism in Action</h3>
+                    <p>See how GPUs process multiple data elements in parallel using element-wise operations.</p>
+
+                    <div class="code-example">
+                        <div class="code-header">
+                            <span class="code-lang">Python</span>
+                            <button class="copy-btn" onclick="copyCode(this)"><i class="fas fa-copy"></i> Copy</button>
+                        </div>
+                        <pre><code class="language-python">import torch
+import time
+
+def parallel_operation_demo(n=10_000_000):
+    """Demonstrate data parallelism with element-wise operations."""
+
+    # Create large tensors
+    x_cpu = torch.randn(n)
+    y_cpu = torch.randn(n)
+
+    # CPU computation
+    start = time.time()
+    z_cpu = torch.relu(x_cpu * y_cpu + 0.5)
+    cpu_time = time.time() - start
+
+    if torch.cuda.is_available():
+        x_gpu = x_cpu.cuda()
+        y_gpu = y_cpu.cuda()
+
+        # Warmup
+        z_gpu = torch.relu(x_gpu * y_gpu + 0.5)
+        torch.cuda.synchronize()
+
+        # GPU computation
+        start = time.time()
+        z_gpu = torch.relu(x_gpu * y_gpu + 0.5)
+        torch.cuda.synchronize()
+        gpu_time = time.time() - start
+
+        print(f"Processing {n:,} elements")
+        print(f"CPU Time: {cpu_time*1000:.2f} ms")
+        print(f"GPU Time: {gpu_time*1000:.2f} ms")
+        print(f"Speedup: {cpu_time/gpu_time:.2f}x")
+        print(f"\nThroughput:")
+        print(f"  CPU: {n/cpu_time/1e6:.2f} million elements/sec")
+        print(f"  GPU: {n/gpu_time/1e6:.2f} million elements/sec")
+    else:
+        print(f"CPU Time: {cpu_time*1000:.2f} ms")
+
+parallel_operation_demo()
+</code></pre>
+                    </div>
+                </div>
+
+                <div class="resource-links">
+                    <h4>Try These Examples:</h4>
+                    <ul>
+                        <li><a href="examples/gpu_check.py" download><i class="fas fa-download"></i> Download gpu_check.py</a></li>
+                        <li><a href="examples/benchmark_matmul.py" download><i class="fas fa-download"></i> Download benchmark_matmul.py</a></li>
+                        <li><a href="examples/parallel_demo.py" download><i class="fas fa-download"></i> Download parallel_demo.py</a></li>
+                        <li><a href="examples/module1_exercises.ipynb" download><i class="fas fa-download"></i> Jupyter Notebook with All Examples</a></li>
+                    </ul>
+                </div>
+            </section>
+
+            <section id="quiz" class="content-section">
+                <h2>Knowledge Check</h2>
+
+                <div class="quiz-intro">
+                    <p>Test your understanding of Module 1 concepts. You need 8/10 correct to pass.</p>
+                    <div class="quiz-stats">
+                        <span id="quiz-score">Score: 0/10</span>
+                        <span id="quiz-status">Not started</span>
+                    </div>
+                </div>
+
+                <div class="quiz-container" id="quiz-container">
+                    <!-- Questions will be loaded here by JavaScript -->
+                </div>
+
+                <div class="quiz-actions">
+                    <button class="btn btn-primary" id="start-quiz-btn" onclick="startQuiz()">Start Quiz</button>
+                    <button class="btn btn-secondary" id="submit-quiz-btn" onclick="submitQuiz()" style="display:none;">Submit Quiz</button>
+                    <button class="btn btn-secondary" id="retry-quiz-btn" onclick="retryQuiz()" style="display:none;">Retry Quiz</button>
+                </div>
+
+                <div class="quiz-results" id="quiz-results" style="display:none;">
+                    <!-- Results will be shown here -->
+                </div>
+            </section>
+
+            <section id="resources" class="content-section">
+                <h2>Additional Resources</h2>
+
+                <div class="resources-grid">
+                    <div class="resource-card">
+                        <h4><i class="fas fa-book"></i> Essential Reading</h4>
+                        <ul>
+                            <li><a href="https://developer.nvidia.com/blog/even-easier-introduction-cuda/" target="_blank">An Even Easier Introduction to CUDA</a></li>
+                            <li><a href="https://docs.nvidia.com/cuda/cuda-c-programming-guide/" target="_blank">CUDA C Programming Guide</a></li>
+                            <li><a href="https://en.wikipedia.org/wiki/Flynn%27s_taxonomy" target="_blank">Flynn's Taxonomy (Wikipedia)</a></li>
+                        </ul>
+                    </div>
+
+                    <div class="resource-card">
+                        <h4><i class="fas fa-video"></i> Video Lectures</h4>
+                        <ul>
+                            <li><a href="https://www.youtube.com/watch?v=3l10o0DYJXg" target="_blank">GPU Computing: Past, Present, and Future (GTC)</a></li>
+                            <li><a href="https://www.youtube.com/watch?v=nOxKexn3iBo" target="_blank">How GPU Computing Works</a></li>
+                        </ul>
+                    </div>
+
+                    <div class="resource-card">
+                        <h4><i class="fas fa-file-pdf"></i> Research Papers</h4>
+                        <ul>
+                            <li><a href="https://www.nvidia.com/content/PDF/fermi_white_papers/NVIDIA_Fermi_Compute_Architecture_Whitepaper.pdf" target="_blank">NVIDIA Fermi Architecture Whitepaper</a></li>
+                            <li><a href="https://arxiv.org/abs/1609.04836" target="_blank">GPU Architectures for Deep Learning</a></li>
+                        </ul>
+                    </div>
+
+                    <div class="resource-card">
+                        <h4><i class="fas fa-code"></i> Code & Tools</h4>
+                        <ul>
+                            <li><a href="https://pytorch.org/tutorials/beginner/blitz/tensor_tutorial.html" target="_blank">PyTorch Tensor Tutorial</a></li>
+                            <li><a href="https://www.tensorflow.org/guide/gpu" target="_blank">TensorFlow GPU Guide</a></li>
+                            <li><a href="https://developer.nvidia.com/nsight-systems" target="_blank">NVIDIA NSight Systems</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+
+            <div class="module-navigation">
+                <a href="../../index.html" class="btn btn-secondary"><i class="fas fa-arrow-left"></i> Back to Modules</a>
+                <a href="../module2/index.html" class="btn btn-primary">Next Module: GPU Hardware <i class="fas fa-arrow-right"></i></a>
+            </div>
+        </main>
+    </div>
+
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2025 GPU Architecture Mastery. Module 1: Introduction to GPU Computing</p>
+        </div>
+    </footer>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-python.min.js"></script>
+    <script src="../../js/main.js"></script>
+    <script src="module1.js"></script>
+</body>
+</html>
