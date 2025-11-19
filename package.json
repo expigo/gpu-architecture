@@ -1,0 +1,45 @@
+{
+  "name": "gpu-architecture",
+  "version": "1.0.0",
+  "description": "A comprehensive, interactive learning platform for understanding GPU architecture with applications in Machine Learning, Deep Learning, and Data Science.",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
+    "lint": "eslint src --ext ts,tsx --report-unused-disable-directives --max-warnings 0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "http://local_proxy@127.0.0.1:52397/git/expigo/gpu-architecture"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@react-three/drei": "^10.7.7",
+    "@react-three/fiber": "^9.4.0",
+    "@vitejs/plugin-react": "^5.1.1",
+    "d3": "^7.9.0",
+    "framer-motion": "^12.23.24",
+    "lucide-react": "^0.554.0",
+    "prismjs": "^1.30.0",
+    "react": "^19.2.0",
+    "react-dom": "^19.2.0",
+    "react-router-dom": "^7.9.6",
+    "react-syntax-highlighter": "^16.1.0",
+    "recharts": "^3.4.1",
+    "three": "^0.181.1",
+    "vite": "^7.2.2"
+  },
+  "devDependencies": {
+    "@types/d3": "^7.4.3",
+    "@types/react": "^19.2.6",
+    "@types/react-dom": "^19.2.3",
+    "@types/three": "^0.181.0",
+    "autoprefixer": "^10.4.22",
+    "postcss": "^8.5.6",
+    "tailwindcss": "^4.1.17",
+    "typescript": "^5.9.3"
+  }
+}

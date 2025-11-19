@@ -1,0 +1,139 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --nvidia-green: #76b900;
+    --nvidia-dark: #1a1a1a;
+    --nvidia-accent: #00d4aa;
+    --bg-primary: #ffffff;
+    --bg-secondary: #f5f5f5;
+    --text-primary: #1a1a1a;
+    --text-secondary: #666666;
+  }
+
+  body {
+    @apply bg-white text-gray-900 antialiased;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-bold;
+  }
+
+  code {
+    @apply font-mono text-sm;
+  }
+}
+
+@layer components {
+  .btn-primary {
+    @apply bg-nvidia-green text-white px-6 py-3 rounded-lg font-semibold
+           hover:bg-green-600 transition-all duration-300
+           hover:shadow-lg hover:-translate-y-0.5;
+  }
+
+  .btn-secondary {
+    @apply bg-transparent border-2 border-nvidia-green text-nvidia-green px-6 py-3 rounded-lg font-semibold
+           hover:bg-nvidia-green hover:text-white transition-all duration-300;
+  }
+
+  .card {
+    @apply bg-white rounded-xl shadow-lg p-6 hover:shadow-xl transition-shadow duration-300;
+  }
+
+  .gradient-nvidia {
+    @apply bg-gradient-to-r from-nvidia-green to-nvidia-accent;
+  }
+}
+
+@layer utilities {
+  .text-gradient {
+    @apply bg-clip-text text-transparent bg-gradient-to-r from-nvidia-green to-nvidia-accent;
+  }
+
+  .scrollbar-hide {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+
+  .scrollbar-hide::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+/* Custom animations */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes pulse-glow {
+  0%, 100% {
+    box-shadow: 0 0 20px rgba(118, 185, 0, 0.3);
+  }
+  50% {
+    box-shadow: 0 0 40px rgba(118, 185, 0, 0.6);
+  }
+}
+
+.animate-fade-in-up {
+  animation: fadeInUp 0.6s ease-out;
+}
+
+.animate-pulse-glow {
+  animation: pulse-glow 2s ease-in-out infinite;
+}
+
+/* Code syntax highlighting */
+.code-block {
+  @apply rounded-lg overflow-hidden shadow-lg;
+}
+
+.code-block pre {
+  @apply p-6 overflow-x-auto;
+}
+
+/* Quiz styles */
+.quiz-option {
+  @apply p-4 border-2 border-gray-200 rounded-lg cursor-pointer transition-all duration-300
+         hover:border-nvidia-green hover:bg-green-50;
+}
+
+.quiz-option.selected {
+  @apply border-nvidia-green bg-green-50;
+}
+
+.quiz-option.correct {
+  @apply border-green-500 bg-green-100;
+}
+
+.quiz-option.incorrect {
+  @apply border-red-500 bg-red-100;
+}
+
+/* Progress bar */
+.progress-bar {
+  @apply h-2 rounded-full bg-gradient-to-r from-nvidia-green to-nvidia-accent transition-all duration-500;
+}
+
+/* Module card hover effect */
+.module-card {
+  @apply transition-all duration-300 hover:-translate-y-2;
+}
+
+/* Interactive visualization container */
+.viz-container {
+  @apply rounded-xl overflow-hidden shadow-2xl bg-nvidia-dark;
+}
+
+.viz-container canvas {
+  @apply w-full h-full;
+}
